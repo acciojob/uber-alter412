@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
 			}
 		}
 		if(min==Integer.MAX_VALUE){
-			throw new Exception("No value present");
+			throw new Exception("No cab available!");
 		}
 		Optional<Driver> optionalDriver = driverRepository2.findById(min);
 		Driver driver = optionalDriver.get();
