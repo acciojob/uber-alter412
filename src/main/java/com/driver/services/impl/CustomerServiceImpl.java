@@ -84,25 +84,19 @@ public class CustomerServiceImpl implements CustomerService {
 	public void cancelTrip(Integer tripId){
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
 		Optional<TripBooking> optionalTripBooking = tripBookingRepository2.findById(tripId);
-		if(optionalTripBooking.isPresent()){
 			TripBooking tripBooking = optionalTripBooking.get();
 			tripBooking.setStatus(TripStatus.CANCELED);
 			tripBooking.getCustomer().getTripBookingList().remove(tripBooking);
 			tripBooking.getDriver().getTripBookingList().remove(tripBooking);
 			tripBookingRepository2.save(tripBooking);
-		}
 	}
 
 	@Override
 	public void completeTrip(Integer tripId){
 		//Complete the trip having given trip Id and update TripBooking attributes accordingly
 		Optional<TripBooking> optionalTripBooking = tripBookingRepository2.findById(tripId);
-
-		if(optionalTripBooking.isPresent()){
 			TripBooking tripBooking = optionalTripBooking.get();
 			tripBooking.setStatus(TripStatus.COMPLETED);
 			tripBookingRepository2.save(tripBooking);
-		}
-
 	}
 }
