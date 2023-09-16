@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Cab{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     int perKmRate;
