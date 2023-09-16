@@ -92,6 +92,8 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalTripBooking.isPresent()){
 			TripBooking tripBooking = optionalTripBooking.get();
 			tripBooking.setStatus(TripStatus.CANCELED);
+			tripBooking.getCustomer().getTripBookingList().remove(tripBooking);
+			tripBooking.getDriver().getTripBookingList().remove(tripBooking);
 			tripBookingRepository2.save(tripBooking);
 		}
 	}
