@@ -57,6 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
 			tripBooking.setToLocation(toLocation);
 			List<Driver> drivers = driverRepository2.findAll();
 
+
 			int min = Integer.MAX_VALUE;
 
 			for(Driver x : drivers){
