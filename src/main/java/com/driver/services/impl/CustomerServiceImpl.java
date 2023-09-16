@@ -47,6 +47,23 @@ public class CustomerServiceImpl implements CustomerService {
 	public TripBooking bookTrip(int customerId, String fromLocation, String toLocation, int distanceInKm) throws Exception{
 		//Book the driver with lowest driverId who is free (cab available variable is Boolean.TRUE). If no driver is available, throw "No cab available!" exception
 		//Avoid using SQL query
+		List<Driver> drivers = driverRepository2.findAll();
+
+
+		int min = Integer.MAX_VALUE;
+
+		for(Driver x : drivers){
+			if(x.getCab().getAvailable()){
+				if(x.getDriverId()<min){
+					min = x.getDriverId();
+				}
+			}
+		}
+		if(min==Integer.MAX_VALUE){
+			throw new Exception("No value present");
+		}
+		Optional<Driver> optionalDriver = driverRepository2.findById(min);
+		Driver driver = optionalDriver.get();
 		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
 			Customer customer = optionalCustomer.get();
 			TripBooking tripBooking = new TripBooking();
@@ -55,23 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 			tripBooking.setDistanceInKm(distanceInKm);
 			tripBooking.setFromLocation(fromLocation);
 			tripBooking.setToLocation(toLocation);
-			List<Driver> drivers = driverRepository2.findAll();
 
-
-			int min = Integer.MAX_VALUE;
-
-			for(Driver x : drivers){
-				if(x.getCab().getAvailable()){
-					if(x.getDriverId()<min){
-						min = x.getDriverId();
-					}
-				}
-			}
-			if(min==Integer.MAX_VALUE){
-				throw new Exception("No value present");
-			}
-			Optional<Driver> optionalDriver = driverRepository2.findById(min);
-				Driver driver = optionalDriver.get();
 				tripBooking.setDriver(driver);
 				tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
 				customer.getTripBookingList().add(tripBooking);
