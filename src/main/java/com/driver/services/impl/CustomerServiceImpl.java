@@ -1,16 +1,13 @@
 package com.driver.services.impl;
 
-import com.driver.model.TripBooking;
+import com.driver.model.*;
 import com.driver.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.driver.model.Customer;
-import com.driver.model.Driver;
 import com.driver.repository.CustomerRepository;
 import com.driver.repository.DriverRepository;
 import com.driver.repository.TripBookingRepository;
-import com.driver.model.TripStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,35 +59,42 @@ public class CustomerServiceImpl implements CustomerService {
 		if(min==Integer.MAX_VALUE){
 			throw new Exception("No cab available!");
 		}
-		return new TripBooking();
-//		Optional<Driver> optionalDriver = driverRepository2.findById(min);
-//		Driver driver;
-//		if(optionalDriver.isPresent()){
-//			 driver = optionalDriver.get();
-//		}else{
-//			return new TripBooking();
-//		}
-//		TripBooking tripBooking = new TripBooking();
-//		tripBooking.setStatus(TripStatus.CONFIRMED);
-//		tripBooking.setDistanceInKm(distanceInKm);
-//		tripBooking.setFromLocation(fromLocation);
-//		tripBooking.setToLocation(toLocation);
-//		tripBooking.setDriver(driver);
-//		tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
-//		driver.getTripBookingList().add(tripBooking);
-//		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
-//		if(optionalCustomer.isPresent()){
-//			Customer customer = optionalCustomer.get();
-//			tripBooking.setCustomer(customer);
-//			customer.getTripBookingList().add(tripBooking);
-//		}else{
-//			Customer customer = new Customer();
-//			customer.setCustomerId(customerId);
-//			Customer savedCustomer = customerRepository2.save(customer);
-//			savedCustomer.getTripBookingList().add(tripBooking);
-//			tripBooking.setCustomer(savedCustomer);
-//		}
-//		return tripBookingRepository2.save(tripBooking);
+		TripBooking tripBooking = new TripBooking();
+		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
+		if(optionalCustomer.isPresent()){
+			Customer customer = optionalCustomer.get();
+			tripBooking.setCustomer(customer);
+			customer.getTripBookingList().add(tripBooking);
+		}else{
+			Customer customer = new Customer();
+			customer.setCustomerId(customerId);
+			Customer savedCustomer = customerRepository2.save(customer);
+			savedCustomer.getTripBookingList().add(tripBooking);
+			tripBooking.setCustomer(savedCustomer);
+		}
+		Optional<Driver> optionalDriver = driverRepository2.findById(min);
+		Driver driver;
+		if(optionalDriver.isPresent()){
+			 driver = optionalDriver.get();
+			tripBooking.setDriver(driver);
+		}else{
+			driver = new Driver();
+			driver.setDriverId(min);
+			Cab cab = new Cab();
+			cab.setAvailable(true);
+			driver.setCab(cab);
+			Driver driver1=driverRepository2.save(driver);
+			tripBooking.setDriver(driver1);
+		}
+
+		tripBooking.setStatus(TripStatus.CONFIRMED);
+		tripBooking.setDistanceInKm(distanceInKm);
+		tripBooking.setFromLocation(fromLocation);
+		tripBooking.setToLocation(toLocation);
+		tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
+		driver.getTripBookingList().add(tripBooking);
+
+		return tripBookingRepository2.save(tripBooking);
 	}
 
 	@Override
