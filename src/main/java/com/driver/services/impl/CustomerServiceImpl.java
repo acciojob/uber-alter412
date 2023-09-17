@@ -67,20 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalDriver.isPresent()){
 			 driver = optionalDriver.get();
 		}else{
-			TripBooking tripBooking2 = new TripBooking();
-			Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
-			if(optionalCustomer.isPresent()){
-				Customer customer = optionalCustomer.get();
-				tripBooking2.setCustomer(customer);
-				customer.getTripBookingList().add(tripBooking2);
-			}else{
-				Customer customer = new Customer();
-				customer.setCustomerId(customerId);
-				Customer savedCustomer = customerRepository2.save(customer);
-				savedCustomer.getTripBookingList().add(tripBooking2);
-				tripBooking2.setCustomer(savedCustomer);
-			}
-			return tripBooking2;
+			return new TripBooking();
 		}
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setStatus(TripStatus.CONFIRMED);
@@ -95,12 +82,6 @@ public class CustomerServiceImpl implements CustomerService {
 			Customer customer = optionalCustomer.get();
 			tripBooking.setCustomer(customer);
 			customer.getTripBookingList().add(tripBooking);
-		}else{
-			Customer customer = new Customer();
-			customer.setCustomerId(customerId);
-			Customer savedCustomer = customerRepository2.save(customer);
-			savedCustomer.getTripBookingList().add(tripBooking);
-			tripBooking.setCustomer(savedCustomer);
 		}
 		return tripBookingRepository2.save(tripBooking);
 	}
