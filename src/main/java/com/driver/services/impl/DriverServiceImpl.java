@@ -54,7 +54,7 @@ public class DriverServiceImpl implements DriverService {
 		if(driver.isPresent()){
 			Driver temp = driver.get();
 			Cab cab = temp.getCab();
-			cab.setAvailable(!cab.getAvailable());
+			cab.setAvailable(false);
 			driverRepository3.save(temp);
 		}
 	}
