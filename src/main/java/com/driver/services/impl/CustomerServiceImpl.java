@@ -62,34 +62,35 @@ public class CustomerServiceImpl implements CustomerService {
 		if(min==Integer.MAX_VALUE){
 			throw new Exception("No cab available!");
 		}
-		Optional<Driver> optionalDriver = driverRepository2.findById(min);
-		Driver driver;
-		if(optionalDriver.isPresent()){
-			 driver = optionalDriver.get();
-		}else{
-			return new TripBooking();
-		}
-		TripBooking tripBooking = new TripBooking();
-		tripBooking.setStatus(TripStatus.CONFIRMED);
-		tripBooking.setDistanceInKm(distanceInKm);
-		tripBooking.setFromLocation(fromLocation);
-		tripBooking.setToLocation(toLocation);
-		tripBooking.setDriver(driver);
-		tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
-		driver.getTripBookingList().add(tripBooking);
-		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
-		if(optionalCustomer.isPresent()){
-			Customer customer = optionalCustomer.get();
-			tripBooking.setCustomer(customer);
-			customer.getTripBookingList().add(tripBooking);
-		}else{
-			Customer customer = new Customer();
-			customer.setCustomerId(customerId);
-			Customer savedCustomer = customerRepository2.save(customer);
-			savedCustomer.getTripBookingList().add(tripBooking);
-			tripBooking.setCustomer(savedCustomer);
-		}
-		return tripBookingRepository2.save(tripBooking);
+		return new TripBooking();
+//		Optional<Driver> optionalDriver = driverRepository2.findById(min);
+//		Driver driver;
+//		if(optionalDriver.isPresent()){
+//			 driver = optionalDriver.get();
+//		}else{
+//			return new TripBooking();
+//		}
+//		TripBooking tripBooking = new TripBooking();
+//		tripBooking.setStatus(TripStatus.CONFIRMED);
+//		tripBooking.setDistanceInKm(distanceInKm);
+//		tripBooking.setFromLocation(fromLocation);
+//		tripBooking.setToLocation(toLocation);
+//		tripBooking.setDriver(driver);
+//		tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
+//		driver.getTripBookingList().add(tripBooking);
+//		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
+//		if(optionalCustomer.isPresent()){
+//			Customer customer = optionalCustomer.get();
+//			tripBooking.setCustomer(customer);
+//			customer.getTripBookingList().add(tripBooking);
+//		}else{
+//			Customer customer = new Customer();
+//			customer.setCustomerId(customerId);
+//			Customer savedCustomer = customerRepository2.save(customer);
+//			savedCustomer.getTripBookingList().add(tripBooking);
+//			tripBooking.setCustomer(savedCustomer);
+//		}
+//		return tripBookingRepository2.save(tripBooking);
 	}
 
 	@Override
