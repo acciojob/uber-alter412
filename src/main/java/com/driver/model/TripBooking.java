@@ -16,7 +16,6 @@ public class TripBooking {
 
     int distanceInKm;
 
-    @Enumerated(EnumType.STRING)
     TripStatus status;
 
     int bill;
