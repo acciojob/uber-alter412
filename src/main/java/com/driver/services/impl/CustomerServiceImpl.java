@@ -82,6 +82,12 @@ public class CustomerServiceImpl implements CustomerService {
 			Customer customer = optionalCustomer.get();
 			tripBooking.setCustomer(customer);
 			customer.getTripBookingList().add(tripBooking);
+		}else{
+			Customer customer = new Customer();
+			customer.setCustomerId(customerId);
+			Customer savedCustomer = customerRepository2.save(customer);
+			savedCustomer.getTripBookingList().add(tripBooking);
+			tripBooking.setCustomer(savedCustomer);
 		}
 		return tripBookingRepository2.save(tripBooking);
 	}
