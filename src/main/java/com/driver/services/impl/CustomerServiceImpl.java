@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalDriver.isPresent()){
 			 driver = optionalDriver.get();
 		}else{
-			return new TripBooking();
+			return null;
 		}
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setStatus(TripStatus.CONFIRMED);
