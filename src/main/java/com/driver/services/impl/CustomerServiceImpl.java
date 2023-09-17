@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		for(Driver x : drivers){
 			if(x.getCab().getAvailable()){
-				if(x.getDriverId()<min){
+				if(x.getDriverId()<=min){
 					min = x.getDriverId();
 				}
 			}
@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalDriver.isPresent()){
 			 driver = optionalDriver.get();
 		}else{
-			throw new Exception("No cab available!");
+			return new TripBooking();
 		}
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setStatus(TripStatus.CONFIRMED);
