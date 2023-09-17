@@ -67,7 +67,20 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalDriver.isPresent()){
 			 driver = optionalDriver.get();
 		}else{
-			return new TripBooking();
+			TripBooking tripBooking2 = new TripBooking();
+			Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
+			if(optionalCustomer.isPresent()){
+				Customer customer = optionalCustomer.get();
+				tripBooking2.setCustomer(customer);
+				customer.getTripBookingList().add(tripBooking2);
+			}else{
+				Customer customer = new Customer();
+				customer.setCustomerId(customerId);
+				Customer savedCustomer = customerRepository2.save(customer);
+				savedCustomer.getTripBookingList().add(tripBooking2);
+				tripBooking2.setCustomer(savedCustomer);
+			}
+			return tripBooking2;
 		}
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setStatus(TripStatus.CONFIRMED);
