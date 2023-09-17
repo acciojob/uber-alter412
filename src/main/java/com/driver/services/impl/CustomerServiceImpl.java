@@ -64,20 +64,21 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		Optional<Driver> optionalDriver = driverRepository2.findById(min);
 		Driver driver = optionalDriver.get();
+		TripBooking tripBooking = new TripBooking();
+		tripBooking.setStatus(TripStatus.CONFIRMED);
+		tripBooking.setDistanceInKm(distanceInKm);
+		tripBooking.setFromLocation(fromLocation);
+		tripBooking.setToLocation(toLocation);
+		tripBooking.setDriver(driver);
+		tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
+		driver.getTripBookingList().add(tripBooking);
 		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
+		if(optionalCustomer.isPresent()){
 			Customer customer = optionalCustomer.get();
-			TripBooking tripBooking = new TripBooking();
-			tripBooking.setStatus(TripStatus.CONFIRMED);
 			tripBooking.setCustomer(customer);
-			tripBooking.setDistanceInKm(distanceInKm);
-			tripBooking.setFromLocation(fromLocation);
-			tripBooking.setToLocation(toLocation);
-
-				tripBooking.setDriver(driver);
-				tripBooking.setBill(driver.getCab().getPerKmRate() * distanceInKm);
-				customer.getTripBookingList().add(tripBooking);
-				driver.getTripBookingList().add(tripBooking);
-				return tripBookingRepository2.save(tripBooking);
+			customer.getTripBookingList().add(tripBooking);
+		}
+		return tripBookingRepository2.save(tripBooking);
 	}
 
 	@Override
