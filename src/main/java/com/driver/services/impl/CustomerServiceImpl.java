@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalDriver.isPresent()){
 			 driver = optionalDriver.get();
 		}else{
-			throw new Exception("No cab available!");
+			return new TripBooking();
 		}
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setStatus(TripStatus.CONFIRMED);
