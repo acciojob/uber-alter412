@@ -38,7 +38,7 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("/cancelTrip")
-	public ResponseEntity<Integer> cancelTrip(@RequestParam Integer tripId){
-		return new ResponseEntity<>(cs.cancelTrip(tripId),HttpStatus.ACCEPTED);
+	public void  cancelTrip(@RequestParam Integer tripId){
+		cs.cancelTrip(tripId);
 	}
 }

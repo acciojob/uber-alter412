@@ -98,15 +98,14 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public int cancelTrip(Integer tripId){
+	public void cancelTrip(Integer tripId){
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
 		Optional<TripBooking> optionalTripBooking = tripBookingRepository2.findById(tripId);
 		if (optionalTripBooking.isPresent()){
 			TripBooking tripBooking = optionalTripBooking.get();
 			tripBooking.setStatus(TripStatus.CANCELED);
-			tripBookingRepository2.save(tripBooking);
+			tripBookingRepository2.delete(tripBooking);
 		}
-		return 100;
 	}
 
 	@Override
