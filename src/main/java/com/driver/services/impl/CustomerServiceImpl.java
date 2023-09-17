@@ -63,7 +63,12 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new Exception("No cab available!");
 		}
 		Optional<Driver> optionalDriver = driverRepository2.findById(min);
-		Driver driver = optionalDriver.get();
+		Driver driver;
+		if(optionalDriver.isPresent()){
+			 driver = optionalDriver.get();
+		}else{
+			throw new Exception("No cab available!");
+		}
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setStatus(TripStatus.CONFIRMED);
 		tripBooking.setDistanceInKm(distanceInKm);
