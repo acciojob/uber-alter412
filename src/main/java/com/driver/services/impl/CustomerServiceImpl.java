@@ -60,6 +60,9 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		TripBooking tripBooking = new TripBooking();
 		Customer customer = customerRepository2.findById(customerId).get();
+		if(customer==null){
+			throw new Exception("Customer not found!!");
+		}
 		tripBooking.setCustomer(customer);
 		tripBooking.setDriver(driver);
 		tripBooking.setStatus(TripStatus.CONFIRMED);
